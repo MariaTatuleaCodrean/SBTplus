@@ -8,25 +8,26 @@
 % Physical Review Fluids, 6: 074103.
 %--------------------------------------------------------------------------
 %
-% This routine computes the forces and torques on two helical filaments
-% rotating in parallel with a prescribed angular velocity (i.e. stepping
-% through a sequence of configurations at a constant rate). The sequence of
-% configurations can be adapted by altering the variables for position (x)
+% This routine computes the hydrodynamic forces and torques on two helical 
+% filaments rotating in parallel in a viscous fluid, with a prescribed 
+% angular velocity (configstepping = stepping through a prescribed sequence 
+% of configurations at a constant rate). The configuration sequence
+% can be adapted using the variables for position (x)
 % and orientation (es) of the two filaments.
 %
 % Code structure:
-% 1) Lines 33-58: Define physical parameters and sequence of configurations.
+% 1) Lines 34-59: Define physical parameters and sequence of configurations.
 %
-% 2) Lines 60-71: If needed, modify numerical parameters. 
+% 2) Lines 61-72: If needed, modify numerical parameters. 
 %
-% 3) Lines 73-171: Run main_configstepping routine. This is the most
-% computationally intensive step. Can take a few minutes to solve the
-% hydrodynamics problem for each configuration (times the number of
-% configurations in the requested sequence). The code automatically saves
-% progress along the way. You can can stop and restart the simulation 
+% 3) Lines 74-172: Hydrodynamic computations based on Slender Body Theory. 
+% This is the most computationally intensive step. It can take a few minutes 
+% to solve the hydrodynamics problem for each configuration (repat for the
+% number of configurations in the requested sequence). The code automatically 
+% saves progress along the way. You can can stop and restart the simulation 
 % at any time, with minimal losses.
 %
-% 4) Lines 173-209: Interpret simulation results and generate plots.
+% 4) Lines 174-210: Interpret simulation results and generate plots.
 %--------------------------------------------------------------------------
 
 
