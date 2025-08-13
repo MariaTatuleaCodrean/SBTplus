@@ -24,7 +24,7 @@
 % This is the most computationally intensive step. It can take a few minutes 
 % to solve the hydrodynamics problem for each configuration (repat for the
 % number of configurations in the requested sequence). The code automatically 
-% saves progress along the way. You can can stop and restart the simulation 
+% saves progress along the way. You can stop and restart the simulation 
 % at any time, with minimal losses.
 %
 % 4) Lines 174-210: Interpret simulation results and generate plots.
