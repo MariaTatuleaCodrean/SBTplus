@@ -12,7 +12,8 @@ mycols = lines(2);
 
 figure('Position',[499,388,756,258])
 subplot(1,2,1)
-plot(phi1(:),1e3*Fz(:),'--o','Color',mycols(1,:),'MarkerSize',8,'MarkerFaceColor',mycols(1,:))
+convf = 1e3;  % conversation from N to mN
+plot(phi1(:),convf*Fz(:),'--o','Color',mycols(1,:),'MarkerSize',8,'MarkerFaceColor',mycols(1,:))
 xlabel('\phi_1')
 ylabel('normal force, F_z [mN]')
 box on
@@ -22,7 +23,8 @@ xticks([0 1 2]*pi)
 xticklabels({'0','\pi','2\pi'})
 
 subplot(1,2,2)
-plot(phi1(:),1e5*Tz(:),'--o','Color',mycols(2,:),'MarkerSize',8,'MarkerFaceColor',mycols(2,:))
+convf = 1e5;  % conversation from N*m to mN*cm
+plot(phi1(:),convf*Tz(:),'--o','Color',mycols(2,:),'MarkerSize',8,'MarkerFaceColor',mycols(2,:))
 xlabel('\phi_1')
 ylabel('normal force, T_z [mN cm]')
 box on

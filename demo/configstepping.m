@@ -27,14 +27,14 @@
 % saves progress along the way. You can stop and restart the simulation 
 % at any time, with minimal losses.
 %
-% 4) Lines 174-210: Interpret simulation results and generate plots.
+% 4) Lines 174-212: Interpret simulation results and generate plots.
 %--------------------------------------------------------------------------
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % User-defined parameters [SI units]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-filename = 'SBTplus_data.mat'; % change for each new simulation
+filename = 'configstepping_sampledata.mat'; % change for each new simulation
 
 % Filament geometry
 r = 10*1e-3;    % helix radius [m]
@@ -48,15 +48,15 @@ mu   = 1;       % dynamic viscosity [Pa s]
 freq = 0.1;     % frequency [Hz]
 
 % Configuration
-d    = 25*1e-3;     % inter-axial distance [m]
+d    = 30*1e-3;     % inter-axial distance [m]
 dphi = 0;           % phase difference between filaments
 
 % Decode inputs
 [l, Omega, Fscale, Tscale] = generateDimensionalParameters(h,p,r,freq,mu);
-[Nturns,epsil,psi,R,L,D] = generateDimensionlessParameters(h,p,r,re,l,d);
+[Nturns,psi,epsil,R,L,D] = generateDimensionlessParameters(h,p,r,re,l,d);
 
 % Define configuration sequence
-[x,es,~,~,phi1] = defineConfigurationSequence('dphi', dphi, 'distance', D, 'phi1', linspace(0,2*pi,13));
+[x,es,~,~,phi1] = defineConfigurationSequence('dphi', dphi, 'distance', D, 'phi1', linspace(0,2*pi,11));
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Numerical accuracy parameters
@@ -180,15 +180,16 @@ end
 load(filename,'FullRes','phi1','d','dphi')
 
 % Normal force & torque
-Fz = Fscale*FullRes(3,6,:);
-Tz = Tscale*FullRes(6,6,:);
+Fz = Fscale*(FullRes(3,6,:)+FullRes(3,12,:)); % normal force on first filament, due to unit angular velocity rotation of *both* filaments
+Tz = Tscale*(FullRes(6,6,:)+FullRes(6,12,:)); % axial torque on first filament, due to unit angular velocity rotation of *both* filaments
 
 % Plot
 mycols = lines(2);
 
 figure('Position',[499,388,756,258])
 subplot(1,2,1)
-plot(phi1(:),1e3*Fz(:),'--o','Color',mycols(1,:),'MarkerSize',8,'MarkerFaceColor',mycols(1,:))
+convf = 1e3; % unit converxion from N to mN
+plot(phi1(:),convf*Fz(:),'--o','Color',mycols(1,:),'MarkerSize',8,'MarkerFaceColor',mycols(1,:))
 xlabel('\phi_1')
 ylabel('normal force, F_z [mN]')
 box on
@@ -198,7 +199,8 @@ xticks([0 1 2]*pi)
 xticklabels({'0','\pi','2\pi'})
 
 subplot(1,2,2)
-plot(phi1(:),1e5*Tz(:),'--o','Color',mycols(2,:),'MarkerSize',8,'MarkerFaceColor',mycols(2,:))
+convf = 1e5; % unit converxion from N*m to mN*cm
+plot(phi1(:),convf*Tz(:),'--o','Color',mycols(2,:),'MarkerSize',8,'MarkerFaceColor',mycols(2,:))
 xlabel('\phi_1')
 ylabel('normal force, T_z [mN cm]')
 box on
